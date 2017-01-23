@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    <script>
+        $(function () {
+
+            var url = "https://api.instagram.com/v1/users/self/media/recent/";
+            var token = "18207645.522924d.a0308dd87201401ba3d9f828def12ea2";
+            $.ajax({
+                url: url,
+                dataType: "jsonp",
+                data: {
+                    access_token: token
+                },
+                success: function (e) {
+                    $(e.data).each(function () {
+                        var c = "<div class='gallery'>";
+                        c += "<a href='" + this.images.standard_resolution.url + "'data-lightbox='img'data-title='" + this.caption.text + "'>"
+                        c += "<img src='" + this.images.low_resolution.url + "'>"
+                        c += "</a>"
+                        c += "<div class='title'>" + this.caption.text + "</div>"
+                        c += "</div>"
+                        $(".container").append(c)
+                    })
+                },
+                error: function () {
+                    alert("data error");
+                }
+            })
+            lightbox.option({
+                'resizeDuration': 200,
+                'fadeDuration': 600,
+                'mageFadeDuration': 200,
+                'wrapAround': true
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <div class="container"></div>
+</body>
+
+</html>
